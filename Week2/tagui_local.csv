@@ -1,0 +1,4 @@
+ExcelDownloadButton,/html/body/div[1]/div/div[2]/a
+POTrackingRedirect,/html/body/div[1]/div/p/a
+SignInButton,/html/body/div[1]/div/div/div/div/form/button[1]
+MainWebSite,https://developer.automationanywhere.com/challenges/automationanywherelabs-supplychainmanagement.html
