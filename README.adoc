@@ -13,6 +13,7 @@ To install all the dependencies, please follow these steps:
 == 1. Python configuration
 
 You will need the following Python packages:
+
 [source, Python]
 ----
 pip install requests
@@ -28,7 +29,7 @@ Also, you will need tesseract installed in this path: *C:/Program Files/Tesserac
 
 Regarding the RPA tool, *TagUI*, you can follow the steps described https://tagui.readthedocs.io/en/latest/setup.html[here].
 
-After you install, you can improve the performance by following https://github.com/tebelorg/RPA-Python/issues/120#issuecomment-610532082[this] thread on GitHub, so you should reach similar results.
+After you install it, you can improve the performance by following https://github.com/tebelorg/RPA-Python/issues/120#issuecomment-610532082[this] issue on GitHub, so you should reach similar results.
 
 Also, I modified the *tagui_config.txt* file on the *\tagui\src* folder to make sure the run command for TagUI does not timeout with VBScript execution.
 
@@ -64,9 +65,9 @@ I have some thoughts and considerations about each one of the challenges.
 
 == Week 1 and 2: Understanding your weapons
 
-*TagUI* is not the tool I was most familiar with. I decided to pick it to know how it performs in practice, and the two first weeks serve it well for this.
+*TagUI* is not the tool I was most familiar with. I decided to pick it to know how it performs in practice, and the two first weeks served it well for this.
 
-This tool behaves like a human, so you need some modifications to run at faster speeds. From my experience, most of the websites can handle unhuman interactions, besides some points. So I changed the *TagUI* files to achieve better performance.
+This tool behaves like a human, so you need some modifications to run at faster speeds. From my experience, most of the websites can handle unhuman interaction speed, besides some fields and loading screens. So I changed the *TagUI* files to achieve better performance.
 
 Another point about the tool is the documentation. Until this point, part of it exists as GitHub Issues,  but not on the main one. It is an ongoing task.
 
@@ -84,7 +85,7 @@ It is good to point: Python alone can be cumbersome to check the field names, so
 
 === What about TagUI?
 
-On this challenge, TagUI performed a secondary but needed role. This situation happened because I could not do the same speed improvement configurations as I did for *Week 1* and *Week 2*. In this case, I choose to use the input filling with *JavaScript* directly, accessing *DOM* using *TagUI*.
+On this challenge, TagUI performed a secondary but needed role. This situation happened because I could not do the same speed improvement configurations as I did for *Week 1* and *Week 2*. In this case, I chose to use the input filling with *JavaScript* directly, accessing *DOM* using *TagUI*.
 
 
 == Week 4: The Good, the Bad and the Ugly
@@ -99,7 +100,6 @@ Some of you can think: Why? It solves the issue, right?
 ____
 _If it ain't broke, don't fix it_
 ____
-
 
 Yes, it is solved, but this is one aspect of programming. As a programmer, I need to think in other aspects, such as:
 
