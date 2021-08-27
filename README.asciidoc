@@ -1,0 +1,126 @@
+= What is the BotGames?
+
+The BotGames was a series of RPA Challenges promoted by *Automation Anywhere* (AA). This event had a considerable scope. It goes from the application point of view. It went from Windows to API automation, which helps any RPA Developer to improve.
+
+= What about this repository?
+
+This repository holds all the solutions I created to solve the challenges. To run it, you will need to configure your environment.
+
+= Ok, what do I need to configure?
+
+To install all the dependencies, please follow these steps:
+
+== 1. Python configuration
+
+You will need the following Python packages:
+[source, Python]
+----
+pip install requests
+pip install pywinauto
+pip install rpa
+pip install pillow
+pip install pytesseract
+----
+
+Also, you will need tesseract installed in this path: *C:/Program Files/Tesseract-OCR/tesseract.exe*. You can find this program https://github.com/UB-Mannheim/tesseract/wiki[here].
+
+== 2. TagUI configuration
+
+Regarding the RPA tool, *TagUI*, you can follow the steps described https://tagui.readthedocs.io/en/latest/setup.html[here].
+
+After you install, you can improve the performance by following https://github.com/tebelorg/RPA-Python/issues/120#issuecomment-610532082[this] thread on GitHub, so you should reach similar results.
+
+Also, I modified the *tagui_config.txt* file on the *\tagui\src* folder to make sure the run command for TagUI does not timeout with VBScript execution.
+
+The standard configuration is:
+[source,JavaScript]
+----
+// set time in ms before error out
+casper.options.waitTimeout = 10000;
+----
+
+And became this:
+[source,JavaScript]
+----
+// set time in ms before error out
+casper.options.waitTimeout = 20000;
+----
+
+== 3. Excel configuration
+
+No configuration is needed. You only need Excel installed on your machine.
+
+
+= Great. What about the challenges?
+
+You can find the description of the challenges on the AA website. Until the day 26/Aug/2021, the websites are:
+
+ * https://developer.automationanywhere.com/blog/challenge-page-tutorial-front-office[Week 1 - Front Office]
+ * https://developer.automationanywhere.com/blog/challenge-page-tutorial-supply-chain[Week 2 - Supply Chain]
+ * https://developer.automationanywhere.com/blog/challenge-page-intro-human-resourc[Week 3 - Human Resources]
+ * https://developer.automationanywhere.com/blog/challenge-page-introaccountspayablechallenge[Week 4 - Accounts Payable]
+
+I have some thoughts and considerations about each one of the challenges.
+
+== Week 1 and 2: Understanding your weapons
+
+*TagUI* is not the tool I was most familiar with. I decided to pick it to know how it performs in practice, and the two first weeks serve it well for this.
+
+This tool behaves like a human, so you need some modifications to run at faster speeds. From my experience, most of the websites can handle unhuman interactions, besides some points. So I changed the *TagUI* files to achieve better performance.
+
+Another point about the tool is the documentation. Until this point, part of it exists as GitHub Issues,  but not on the main one. It is an ongoing task.
+
+Besides this, *TagUI* was able to complete, by itself, the *Week 1* challenge. The *Week 2* problem required a little help from VBScript since this RPA tool can only deal with desktop apps by computer vision.
+
+Another point is: I refreshed the page after setting up the bot for the challenge. I did this because interacting with different pages is only possible for *TagUI* if the second page is accessible from the first one, considerably increasing the number of seconds to complete the challenge.
+
+This discussion leads me to further decisions for the ongoing weeks: https://github.com/tebelorg/RPA-Python[use the Python version].
+
+== Week 3: Saving Private Ryan, with Python
+
+I believe you do not need introductions for this. The __swiss knife__ of programming, AKA *Python*, was used to automate on Windows. The *piwinauto* package is more optimal for this type of task.
+
+It is good to point: Python alone can be cumbersome to check the field names, so if you follow a similar approach in your projects, I recommend you to use https://accessibilityinsights.io/docs/en/windows/overview/[Accessibility Insights for Windows]. This program brings the information from the Windows apps fields.
+
+=== What about TagUI?
+
+On this challenge, TagUI performed a secondary but needed role. This situation happened because I could not do the same speed improvement configurations as I did for *Week 1* and *Week 2*. In this case, I choose to use the input filling with *JavaScript* directly, accessing *DOM* using *TagUI*.
+
+
+== Week 4: The Good, the Bad and the Ugly
+
+I have mixed feelings about this challenge. From one point, I was able to use OCR with Tesseract, this is *The Good*. t the same time, I did not reach this technology's full potential due to my lack of knowledge in this field, and here we have *The Bad*. 
+
+To fill this knowledge gap, I used different queries in *REGEX* o parse the content of each invoice, and this, my friends, is *The Ugly*.
+
+Some of you can think: Why? It solves the issue, right?
+
+[quote,The programmer who quit]
+____
+_If it ain't broke, don't fix it_
+____
+
+Yes, it is solved, but this is one aspect of programming. As a programmer, I need to think in other aspects, such as:
+
+* How readable is the solution?
+* How easy is it to find someone who can do something like this?
+* If something changes, how reliable is my code?
+* Will I be able to understand this after six months?
+
+Following these aspects, I do not see *REGEX* as the core of a solution for most occasions. In real life, I would only use this on one or more of those occasions:
+
+* I do not have any other option.
+* I have tested the REGEX queries widely.
+* The solution is more reliable than humans performing the same task.
+* The patterns against the queries do not change too much.
+
+The reason is simple. If you are a programmer who used REGEX at some point, I bet you can remember what the query means after a day. REGEX is hard to read and maintain if you do not work with this daily.
+
+To mitigate this issue, I separated the queries per function. Also, I put each REGEX query in a variable, so the variable’s name describes what the query does.
+
+If you use REGEX, I strongly recommend you do similar things. REGEX without documentation can become a *nightmare* fast.
+
+= Conclusion
+
+First of all, thank you for your attention and your time reading this.
+I will use the results from these challenges to guide my next steps. If you want to test your skills as an RPA Developer, I recommend trying this out!
