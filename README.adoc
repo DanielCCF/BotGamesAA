@@ -100,6 +100,7 @@ ____
 _If it ain't broke, don't fix it_
 ____
 
+
 Yes, it is solved, but this is one aspect of programming. As a programmer, I need to think in other aspects, such as:
 
 * How readable is the solution?
