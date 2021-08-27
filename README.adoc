@@ -1,6 +1,6 @@
 = What is the BotGames?
 
-The BotGames was a series of RPA Challenges promoted by *Automation Anywhere* (AA). This event had a considerable scope. It goes from the application point of view. It went from Windows to API automation, which helps any RPA Developer to improve.
+The BotGames was a series of RPA Challenges promoted by *Automation Anywhere* (AA). This event had a considerable scope. It went from Windows to API automation, which helps any RPA Developer to improve.
 
 = What about this repository?
 
