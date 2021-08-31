@@ -82,50 +82,51 @@ dir = os.path.dirname(__file__)
 
 rpa.init()
 
-rpa.url('https://developer.automationanywhere.com/challenges/automationanywherelabs-invoiceentry.html')
-
-#Preparing the loop for each image file
+#Extracting all invoices data
+invoiceData = []
 os.chdir(dir)
 for imageName in glob.glob("*.tiff"):
     #Building the file name and extracting its information
-    try:
-        filename = os.path.join(dir, imageName)
-        output = get_text_from_image(filename)
-    except:
-        output = ""
+    filename = os.path.join(dir, imageName)
+    output = get_text_from_image(filename)
 
-    #Getting the invoice data
-    invoiceNumber = get_invoice_number(output).strip()
-    invoiceDate = get_invoice_date(output).strip()
-    invoiceTotal = get_invoice_total(output).strip()
-    invoiceQuantities = get_invoice_quantities(output)
-    invoiceDescriptions = get_invoice_descriptions(output)
-    invoiceTotalsPerItem = get_invoice_totals_per_item(output)
+    #Getting the invoice data and adding to the list
+    invoiceData.append({'invoiceNumber': get_invoice_number(output).strip(),
+                        'invoiceDate' : get_invoice_date(output).strip(),
+                        'invoiceTotal' : get_invoice_total(output).strip(),
+                        'invoiceQuantities' : get_invoice_quantities(output),
+                        'invoiceDescriptions' : get_invoice_descriptions(output),
+                        'invoiceTotalsPerItem' : get_invoice_totals_per_item(output),
+                        'filename': filename})
 
+#Acessing challenge website
+rpa.url('https://developer.automationanywhere.com/challenges/automationanywherelabs-invoiceentry.html')
+
+rpa.wait(2)
+#Looping through each invoice
+for invoice in invoiceData:
     #Filling input fields information
-    rpa.dom('document.getElementById("invoiceNumber").value = ' + "'" + invoiceNumber + "'")
-    rpa.dom('document.getElementById("invoiceDate").value = ' + "'" + invoiceDate + "'")
-    rpa.dom('document.getElementById("invoiceTotal").value = ' + "'" + invoiceTotal + "'")
+    rpa.dom('document.getElementById("invoiceNumber").value = ' + "'" + invoice['invoiceNumber'] + "'")
+    rpa.dom('document.getElementById("invoiceDate").value = ' + "'" + invoice['invoiceDate'] + "'")
+    rpa.dom('document.getElementById("invoiceTotal").value = ' + "'" + invoice['invoiceTotal'] + "'")
 
     #Adding the amount of needed rows for processing
-    for i in range(len(invoiceQuantities)-1):
-         rpa.click('//*[@id="myDIV"]/div/button[1]')
+    for i in range(len(invoice['invoiceQuantities'])-1):
+         rpa.dom('document.evaluate("//*[@id=\'myDIV\']/div/button[1]",document,null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click()')
 
     #Filing the invoice details in a table
-    for i in range(len(invoiceQuantities)):
-        rpa.dom('document.getElementById("quantity_row_'+ str(i+1) +'").value = ' + "'" + invoiceQuantities[i] + "'")
-        rpa.dom('document.getElementById("description_row_'+ str(i+1) +'").value = ' + "'" + invoiceDescriptions[i] + "'")
-        rpa.dom('document.getElementById("price_row_'+ str(i+1) +'").value = ' + "'" + invoiceTotalsPerItem[i] + "'")
+    for i in range(len(invoice['invoiceQuantities'])):
+        rpa.dom('document.getElementById("quantity_row_'+ str(i+1) +'").value = ' + "'" + invoice['invoiceQuantities'][i] + "'")
+        rpa.dom('document.getElementById("description_row_'+ str(i+1) +'").value = ' + "'" + invoice['invoiceDescriptions'][i] + "'")
+        rpa.dom('document.getElementById("price_row_'+ str(i+1) +'").value = ' + "'" + invoice['invoiceTotalsPerItem'][i] + "'")
 
-    #Uploading the file and agreeing with terms
-    rpa.upload('#fileupload',filename)
-    rpa.click('agreeToTermsYes')
 
-    rpa.click('submit_button')
+    #Uploading the file, agreeing with terms and submit input
+    rpa.upload('#fileupload',invoice['filename'])
+    rpa.dom("document.getElementById('agreeToTermsYes').click()")
+    rpa.dom("document.getElementById('submit_button').click()")
 
 #Waiting for the ouput image and printing it
 rpa.wait(2)
-
 rpa.snap('page', '\\Week4\\Result-Standard.png')
-
 rpa.close()
